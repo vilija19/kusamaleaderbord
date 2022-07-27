@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Http\Controllers\ValidatorController;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class UpdateValidators extends Command
 {
@@ -35,19 +36,20 @@ class UpdateValidators extends Command
      * Execute the console command.
      * In order to automatically update validators info from Kusama telemetry service,
      * you need add this command to your crontab:
-     * 0 * * * * php artisan update:validators 2>&1
-     *
-     * @return int
+     * * * * * * cd /var/www/html/kusama && /usr/local/bin/php artisan schedule:run >> /dev/null  2>&1
+     *  and add it to /var/www/html/kusama/app/Console/Kernel.php 
+     * function schedule()
+     * 
+     * @return void
      */
     public function handle()
     {
-        $this->info('Updating validators info...');
+        Log::channel('update')->info('Updating validators info...');
         $leaderboard = new ValidatorController();
         if ($leaderboard->updateValidators()) {
-            $this->info('Validators info updated.');
+            Log::channel('update')->info('Validators info updated.');
         }else {
-            $this->info('Validators are not updated. Error!!!');
+            Log::channel('update')->info('Validators are not updated. Error!!!');
         }
-        return 0;
     }
 }
