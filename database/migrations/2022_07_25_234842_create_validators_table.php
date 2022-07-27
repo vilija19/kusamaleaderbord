@@ -243,7 +243,7 @@ class CreateValidatorsTable extends Migration
             $table->integer('nomination_order');
             $table->bigInteger('discoveredAt');
             $table->bigInteger('nominatedAt');
-            $table->integer('offlineSince');
+            $table->bigInteger('offlineSince');
             $table->integer('offlineAccumulated');
             $table->integer('faults');
             $table->string('invalidityReasons');
