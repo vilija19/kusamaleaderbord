@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Validator;
-use Illuminate\Support\Facades\Log;
 
 class LeaderboardController extends Controller
 {
