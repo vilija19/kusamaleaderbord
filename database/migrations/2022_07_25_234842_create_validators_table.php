@@ -239,7 +239,8 @@ class CreateValidatorsTable extends Migration
             $table->string('name');
             $table->integer('score');
             $table->integer('rank');
-            $table->string('active');
+            $table->boolean('active');
+            $table->boolean('valid');
             $table->integer('nomination_order');
             $table->bigInteger('discoveredAt');
             $table->bigInteger('nominatedAt');
@@ -247,15 +248,15 @@ class CreateValidatorsTable extends Migration
             $table->integer('offlineAccumulated');
             $table->integer('faults');
             $table->string('invalidityReasons');
-            $table->string('unclaimedEras');
+            $table->text('unclaimedEras');
             $table->integer('inclusion');
             $table->integer('commission');
-            $table->string('identity');
-            $table->string('validity');
+            $table->text('identity');
+            $table->text('validity');
             $table->string('councilStake');
-            $table->string('councilVotes');
+            $table->text('councilVotes');
             $table->integer('democracyVoteCount');
-            $table->string('democracyVotes');
+            $table->text('democracyVotes');
             $table->timestamps();
         });
     }
