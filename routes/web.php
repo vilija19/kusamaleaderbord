@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LeaderboardController::class,'index'])->name('home.index');
 Route::get('/validator/{id}', [ValidatorController::class,'show'])->name('validator.show');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
