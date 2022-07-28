@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\ValidatorController;
 use Illuminate\Support\Facades\Route;
