@@ -21,4 +21,18 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+Route::middleware(config('fortify.middleware', ['web']))->prefix('metamask')->group(function () {
+    $limiter = config('fortify.limiters.metamask');
+
+    Route::get('/ethereum/signature', [\App\Http\Controllers\Web3AuthController::class, 'signature'])
+        ->name('metamask.signature')
+        ->middleware('guest:'.config('fortify.guard'));
+
+    Route::post('/ethereum/authenticate', [\App\Http\Controllers\Web3AuthController::class, 'authenticate'])
+        ->middleware(array_filter([
+            'guest:'.config('fortify.guard'),
+            $limiter ? 'throttle:'.$limiter : null,
+        ]))->name('metamask.authenticate');
+});
+
 require __DIR__.'/auth.php';

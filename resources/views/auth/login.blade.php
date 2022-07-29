@@ -52,5 +52,42 @@
                 </x-button>
             </div>
         </form>
+
+
+<div class="text-center py-8 border-t border-gray-200" x-data="{
+    loading: false,
+    loginSignatureUrl: '{{ route('metamask.signature') }}',
+    loginUrl: '{{ route('metamask.authenticate') }}',
+    redirectUrl : '/dashboard',
+}">
+    <button x-bind:disabled="loading" @click="async () => {
+        loading = true;     
+        
+        const web3 = new Web3(window.ethereum);                  
+        
+        // Fetch nonce
+        const message = (await axios.get(loginSignatureUrl)).data;
+        // Get wallet address
+        const address = (await web3.eth.requestAccounts())[0];
+        // Sign message
+        const signature = await web3.eth.personal.sign(message, address);
+        
+        try {
+           let response = await axios.post(loginUrl, {
+               'address': address,
+               'signature': signature,
+           });
+          
+           window.location.href = redirectUrl;
+        } catch(e) {
+           alert(e.message);
+        }
+                                              
+        loading = false;                                      
+    }" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
+        Login with MetaMask
+    </button>
+</div>
+
     </x-auth-card>
 </x-guest-layout>
