@@ -11,31 +11,26 @@
 </div>
 @endif
 <h3>List of validators</h3> <h6> Last update (UTC): {{ $last_update }}</h6>
-<style>
-table, th, td {
-  border: 1px solid black;
-  padding: 5px;
-}
-</style>
-<table class="unstyledTable">
+
+<table class="table table-striped">
 <thead>
 <tr>
-<th>Nomination<br>order</th>
-<th>VALIDATOR NAME</th>
-<th>SCORE</th>
-<th>RANK</th>
-<th>IS ACTIVE</th>
-<th>IS VALID</th>
+<th scope="col">Nomination<br>order</th>
+<th scope="col">VALIDATOR NAME</th>
+<th scope="col">SCORE</th>
+<th scope="col">RANK</th>
+<th scope="col">IS ACTIVE</th>
+<th scope="col">IS VALID</th>
 </tr>
 </thead>
 <tbody>
 @foreach ($candidates as $nomination_order => $candidate)
-<tr>
-<td>{{ $nomination_order }}</td>
+<tr @if (!$candidate->valid) class="table-danger" @endif>
+<th scope="row">{{ $nomination_order }}</th>
 <td><a href="/validator/{{ $candidate['id'] }}">{{ $candidate->name }}</a></td>
 <td>{{ $candidate->score }}</td>
 <td>{{ $candidate->rank }}</td>
-<td>{{ $candidate->active }}</td>
+<td @if ($candidate->active) class="table-success" @endif>{{ $candidate->active }}</td>
 <td>{{ $candidate->valid }}</td>
 </tr>
 @endforeach
