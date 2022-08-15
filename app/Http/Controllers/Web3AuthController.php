@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Web3;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\MessageBag;
 
 class Web3AuthController extends Controller
 {
@@ -20,23 +20,27 @@ class Web3AuthController extends Controller
     
         $user = User::query()->where('eth_address', $request->address)->first();
 
-        if (!$user) {
+        session()->forget('metamask-nonce');
+
+        if (!$user && config('web3login.strict_mode') == false) {
             $user = new User();
             $user->name = 'metamask-user';
             $user->email = $request->address;
             $user->password = Str::random(16);
             $user->eth_address = $request->address;
             $user->save();
+            auth()->login($user);
+        }elseif ($user) {
+            auth()->login($user);
+        }else {
+            $message = new MessageBag(['password' => [trans('auth.failed').' Please register first']]);
+            session()->put('errors', $message);
+            return back();
         }
-    
-        auth()->login($user);
-    
-        session()->forget('metamask-nonce');
-    
         return true;
     }
      
-    public function signature(Request $request)
+    public function signature()
     {
         // Generate some random nonce
         $code = Str::random(8);

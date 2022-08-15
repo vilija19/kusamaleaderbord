@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e72b780539a6cd95e42e3d63c55311a",
+    "content-hash": "364ec43c47d2abf19e89039609db9c63",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5432,6 +5432,50 @@
             "time": "2021-12-08T09:12:39+00:00"
         },
         {
+            "name": "vilija19/modelshistory",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vilija19/laravel_models_history.git",
+                "reference": "8504a1cb9d5586965438973828ff9871070111ff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vilija19/laravel_models_history/zipball/8504a1cb9d5586965438973828ff9871070111ff",
+                "reference": "8504a1cb9d5586965438973828ff9871070111ff",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vilija19\\Modelshistory\\ModelsHistoryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vilija19\\Modelshistory\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex",
+                    "email": "billibons777@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/vilija19/laravel_models_history/issues",
+                "source": "https://github.com/vilija19/laravel_models_history/tree/main"
+            },
+            "time": "2022-08-06T10:26:03+00:00"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v5.4.1",
             "source": {
@@ -8153,7 +8197,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "vilija19/modelshistory": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
