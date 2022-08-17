@@ -17,17 +17,19 @@
 </div> 
 <div class="row mb-3 text-left">
     <div class="col-md-6 themed-grid-col">
-        <h6> Last update (UTC): {{ $last_update }}</h6>
+        <h6> Last update (UTC): {{ $last_update }}</h6> 
     </div>
     <div class="col-md-3 themed-grid-col">
         <div class="form-check form-switch">
-            <input name="wish_only" class="form-check-input leaderboard-switch" type="checkbox" role="switch" id="wish_only">
+            <input name="wish_only" class="form-check-input leaderboard-switch"
+             type="checkbox" role="switch" id="wish_only" {{ $wish_only ? 'checked' : '' }}>
             <label class="form-check-label" for="flexSwitchCheckChecked">Show wish only</label>
         </div>         
     </div> 
     <div class="col-md-3 themed-grid-col">
         <div class="form-check form-switch">
-            <input name="valid_only" class="form-check-input leaderboard-switch" type="checkbox" role="switch" id="valid_only">
+            <input name="valid_only" class="form-check-input leaderboard-switch" 
+            type="checkbox" role="switch" id="valid_only" {{ $valid_only ? 'checked' : '' }}>
             <label class="form-check-label" for="flexSwitchCheckChecked">Show valid only</label>
         </div>         
     </div>        
@@ -43,6 +45,7 @@
 <th scope="col">RANK</th>
 <th scope="col">IS ACTIVE</th>
 <th scope="col">IS VALID</th>
+<th scope="col">WATCH</th>
 </tr>
 </thead>
 <tbody>
@@ -54,6 +57,12 @@
 <td>{{ $candidate->rank }}</td>
 <td @if ($candidate->active) class="table-success" @endif>{{ $candidate->active }}</td>
 <td>{{ $candidate->valid }}</td>
+<td>
+    <div class="form-check">
+        <input class="form-check-input item-wish" type="checkbox"
+         value="" data-for="{{ $candidate['id'] }}" {{ isset($wish_list[$candidate->id]) ? 'checked' : '' }}>
+    </div>
+</td>
 </tr>
 @endforeach
 </tbody>
