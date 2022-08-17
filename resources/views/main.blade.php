@@ -10,7 +10,29 @@
     {!! session('error') !!}
 </div>
 @endif
-<h3>List of validators</h3> <h6> Last update (UTC): {{ $last_update }}</h6>
+<div class="row mb-3 text-left">
+    <div class="col-md-3 themed-grid-col">
+        <h3>List of validators</h3>
+    </div>
+</div> 
+<div class="row mb-3 text-left">
+    <div class="col-md-6 themed-grid-col">
+        <h6> Last update (UTC): {{ $last_update }}</h6>
+    </div>
+    <div class="col-md-3 themed-grid-col">
+        <div class="form-check form-switch">
+            <input name="wish_only" class="form-check-input leaderboard-switch" type="checkbox" role="switch" id="wish_only">
+            <label class="form-check-label" for="flexSwitchCheckChecked">Show wish only</label>
+        </div>         
+    </div> 
+    <div class="col-md-3 themed-grid-col">
+        <div class="form-check form-switch">
+            <input name="valid_only" class="form-check-input leaderboard-switch" type="checkbox" role="switch" id="valid_only">
+            <label class="form-check-label" for="flexSwitchCheckChecked">Show valid only</label>
+        </div>         
+    </div>        
+</div> 
+
 
 <table class="table table-striped">
 <thead>

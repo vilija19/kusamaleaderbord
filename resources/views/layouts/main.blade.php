@@ -1,5 +1,7 @@
 @include('includes.header')
-<div class="container">
+<main class="flex-shrink-0">
+  <div class="container">
     @yield('content')
-</div>
+  </div>
+</main>
 @include('includes.footer')
