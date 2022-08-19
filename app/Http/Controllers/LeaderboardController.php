@@ -13,19 +13,32 @@ class LeaderboardController extends Controller
         $data = array();
         $data['wish_only'] = 0;
         $data['valid_only'] = 0;
+        $url = '/?';
 
-        $validatorsInfo = Validator::all()->sortBy(['nomination_order', 'asc']);
+        if ($request->get('search')) {
+            $url .= 'search='.$request->get('search').'&';
+            $validatorsInfo = Validator::query()->where('name', 'LIKE', "%{$request->get('search')}%")->get();
+        } else {
+            $validatorsInfo = Validator::all()->sortBy(['nomination_order', 'asc']);
+        }
+        $data['wish_list'] =  $this->getWishList();
 
-        if (isset($request->valid_only)) {
+        if ($request->get('filter')) {
+            $url .= 'filter='.$request->get('filter').'&';
+            $this->setFilterCookie($request);
+        }
+
+
+
+        if ($request->get('valid_only') || (!$request->get('filter') && Cookie::get("valid_only"))) {
+            $url .= 'valid_only='.$request->get('valid_only').'&';
             $validatorsInfo = $validatorsInfo->where('valid', 1);
             $data['valid_only'] = 1;
         }
 
-        $data['wish_list'] =  $this->getWishList();
-
-        if (isset($request->wish_only)) {
+        if ($request->get('wish_only') || (!$request->get('filter') && Cookie::get("wish_only"))) {
             $data['wish_only'] = 1;
-
+            $url .= 'wish_only='.$request->get('wish_only').'&';
             if ($data['wish_list']) {
                 foreach ($validatorsInfo as $key => $validator) {
                     if (!array_key_exists($validator->id, $data['wish_list'])) {
@@ -35,8 +48,9 @@ class LeaderboardController extends Controller
             }
         }
 
-        $data['candidates'] = $validatorsInfo;
 
+        $data['candidates'] = $validatorsInfo;
+        $data['url'] = $url;
 
         $data['last_update'] = 'never';
         $lastUpdatedUser = $data['candidates']->sortByDesc('updated_at')->first();
@@ -45,6 +59,20 @@ class LeaderboardController extends Controller
         }
         
         return view('main', $data);
+    }
+
+    protected function setFilterCookie(Request $request)
+    {
+            if ($request->get('valid_only')){
+                Cookie::queue("valid_only",'1',60*24*30);
+            }else {
+                Cookie::queue(Cookie::forget("valid_only")); 
+            }
+            if ($request->get('wish_only')){
+                Cookie::queue("wish_only",'1',60*24*30);
+            }else {
+                Cookie::queue(Cookie::forget("wish_only")); 
+            }            
     }
 
     protected function getWishList()

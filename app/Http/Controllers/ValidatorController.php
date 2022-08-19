@@ -45,7 +45,7 @@ class ValidatorController extends Controller
             $validator->commission = $validatorInfo['commission'];
             $validator->identity = ''; // $validatorInfo['identity'];
             $validator->active = $validatorInfo['active'];
-            $validator->valid = $validatorInfo['valid'];
+            $validator->valid = $validatorInfo['valid'] ?? true;
             $validator->validity = ''; // $validatorInfo['validity'];
             $validator->score = round($validatorInfo['total']);
             $validator->councilStake = $validatorInfo['councilStake'];

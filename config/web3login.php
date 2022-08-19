@@ -13,5 +13,5 @@ return [
      * After user can edit his profile if he wants (Complete name,email etc).
      */
 
-    'strict_mode' => true,
+    'strict_mode' => false,
 ];

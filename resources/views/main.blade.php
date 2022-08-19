@@ -51,7 +51,7 @@
 <tbody>
 @foreach ($candidates as $nomination_order => $candidate)
 <tr @if (!$candidate->valid) class="table-danger" @endif>
-<th scope="row">{{ $nomination_order }}</th>
+<th scope="row">{{ $candidate->nomination_order }}</th>
 <td><a href="/validator/{{ $candidate['id'] }}">{{ $candidate->name }}</a></td>
 <td>{{ $candidate->score }}</td>
 <td>{{ $candidate->rank }}</td>
