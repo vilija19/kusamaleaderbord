@@ -45,7 +45,7 @@
 <th scope="col">RANK</th>
 <th scope="col">IS ACTIVE</th>
 <th scope="col">IS VALID</th>
-<th scope="col">WATCH</th>
+<th scope="col">WISH</th>
 </tr>
 </thead>
 <tbody>
@@ -60,7 +60,7 @@
 <td>
     <div class="form-check">
         <input class="form-check-input item-wish" type="checkbox"
-         value="" data-for="{{ $candidate['id'] }}" {{ isset($wish_list[$candidate->id]) ? 'checked' : '' }}>
+         value="" data-for="{{ $candidate['id'] }}" {{ in_array($candidate->id,$wish_list) ? 'checked' : '' }}>
     </div>
 </td>
 </tr>

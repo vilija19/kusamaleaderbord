@@ -22,5 +22,19 @@ class Validator extends Model
      */
     public $incrementing = false;
 
+    /**
+     * Accesor for the valid attribute.
+     * Get validity status.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function getValidAttribute($value)
+    {
+        if ($value == 2) {
+            return 'Unknown';
+        }
+    }
+
     use HasFactory;
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Str;
 
 class LeaderboardController extends Controller
 {
@@ -15,12 +16,6 @@ class LeaderboardController extends Controller
         $data['valid_only'] = 0;
         $url = '/?';
 
-        if ($request->get('search')) {
-            $url .= 'search='.$request->get('search').'&';
-            $validatorsInfo = Validator::query()->where('name', 'LIKE', "%{$request->get('search')}%")->get();
-        } else {
-            $validatorsInfo = Validator::all()->sortBy(['nomination_order', 'asc']);
-        }
         $data['wish_list'] =  $this->getWishList();
 
         if ($request->get('filter')) {
@@ -28,32 +23,42 @@ class LeaderboardController extends Controller
             $this->setFilterCookie($request);
         }
 
+        $query = Validator::query();
 
+        if ($request->get('search')) {
+            $url .= 'search='.$request->get('search').'&';
+
+            $query->where('name', 'like', '%' . $request->get('search') . '%');
+        }
 
         if ($request->get('valid_only') || (!$request->get('filter') && Cookie::get("valid_only"))) {
             $url .= 'valid_only='.$request->get('valid_only').'&';
-            $validatorsInfo = $validatorsInfo->where('valid', 1);
             $data['valid_only'] = 1;
+
+            $query->where('valid', 1);
         }
 
         if ($request->get('wish_only') || (!$request->get('filter') && Cookie::get("wish_only"))) {
             $data['wish_only'] = 1;
             $url .= 'wish_only='.$request->get('wish_only').'&';
             if ($data['wish_list']) {
-                foreach ($validatorsInfo as $key => $validator) {
-                    if (!array_key_exists($validator->id, $data['wish_list'])) {
-                        $validatorsInfo->forget($key);
-                    }
-                }
+                $query->whereIn('id', $data['wish_list']);
             }
         }
 
+        $query->orderBy('nomination_order', 'asc');
+        $validatorsInfo = $query->get();
+
+        /**
+         * To show sql query use this code
+         * dd(Str::replaceArray('?', $query->getBindings(), $query->toSql()) );
+         */
 
         $data['candidates'] = $validatorsInfo;
         $data['url'] = $url;
 
         $data['last_update'] = 'never';
-        $lastUpdatedUser = $data['candidates']->sortByDesc('updated_at')->first();
+        $lastUpdatedUser = $validatorsInfo->sortBy('updated_at')->first();
         if ($lastUpdatedUser) {
             $data['last_update'] = $lastUpdatedUser->updated_at->toDateTimeString();
         }
@@ -77,14 +82,17 @@ class LeaderboardController extends Controller
 
     protected function getWishList()
     {
-        return Cookie::get("validators_wish");
+        /**
+         * Return array cookies with keys only
+         */
+        return array_keys(Cookie::get("validators_wish"));
     }
 
     public function add_to_wish(Request $request)
     {
         $json = array();
-        $cookies = Cookie::get("validators_wish");
-        if (!isset($cookies[$request->id])) {
+        $cookies = $this->getWishList();
+        if (!in_array($request->id,$cookies)) {
             Cookie::queue("validators_wish[" . $request->id . "]",'1',60*24*30);
         }else {
             Cookie::queue(Cookie::forget("validators_wish[" . $request->id . "]")); 

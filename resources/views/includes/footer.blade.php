@@ -1,6 +1,6 @@
 <footer class="footer mt-auto py-3 bg-light">
   <div class="container">
-    <p>Powered By <a href="https://laravel.com/docs">Laravel</a><br>DZAN Service © 2022</p>
+    <p>Powered By <a href="https://laravel.com/docs" target=”_blank”>Laravel</a><br>DZAN Service © 2022</p>
   </div>
 </footer>
 
