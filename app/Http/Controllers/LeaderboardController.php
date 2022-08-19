@@ -85,7 +85,11 @@ class LeaderboardController extends Controller
         /**
          * Return array cookies with keys only
          */
-        return array_keys(Cookie::get("validators_wish"));
+        $cookies = array ();
+        if (Cookie::get("validators_wish")) {
+            $cookies = Cookie::get("validators_wish");
+        }
+        return array_keys($cookies);
     }
 
     public function add_to_wish(Request $request)
