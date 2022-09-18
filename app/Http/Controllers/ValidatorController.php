@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Validator;
+use App\Models\Version;
 use Illuminate\Support\Facades\Http;
 
 class ValidatorController extends Controller
@@ -23,6 +24,22 @@ class ValidatorController extends Controller
     public function updateValidators()
     {
         $result = false;
+
+        $storedVersion = 0;
+        $version = Version::first();
+        if ($version) {
+            $storedVersion = $version->version;
+        }
+
+        $versionInfo = Http::get('https://api.github.com/repos/paritytech/polkadot/releases')->collect();
+        $lastNodeVersion = $versionInfo->first()['tag_name'];
+
+        if ($lastNodeVersion != $storedVersion) {
+            $version->version = $lastNodeVersion;
+            $version->asknowledgement = 0;
+            $version->save();
+        }
+
         $validatorsOldInfo = Validator::all();
         $validatorsNewInfo = Http::get('https://kusama.w3f.community/candidates')->collect()->toArray();
         

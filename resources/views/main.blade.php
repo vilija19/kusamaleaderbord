@@ -17,7 +17,7 @@
 </div> 
 <div class="row mb-3 text-left">
     <div class="col-md-6 themed-grid-col">
-        <h6> Last update (UTC): {{ $last_update }}</h6> 
+        <h6> Last update (UTC): {{ $last_update }}</h6>  {{ $version ? $version : '' }}
     </div>
     <div class="col-md-3 themed-grid-col">
         <div class="form-check form-switch">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Validator;
+use App\Models\Version;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
@@ -48,6 +49,12 @@ class LeaderboardController extends Controller
 
         $query->orderBy('nomination_order', 'asc');
         $validatorsInfo = $query->get();
+
+        $data['version'] = '';
+        $versionInfo = Version::first();
+        if ($versionInfo && !$versionInfo->asknowledgement) {
+            $data['version'] = 'Last version ' . $versionInfo->version;
+        }
 
         /**
          * To show sql query use this code
