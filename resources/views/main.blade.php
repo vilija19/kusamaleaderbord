@@ -17,8 +17,18 @@
 </div> 
 <div class="row mb-3 text-left">
     <div class="col-md-6 themed-grid-col">
-        <h6> Last update (UTC): {{ $last_update }}</h6>  {{ $version ? $version : '' }}
+        <h6> Last update (UTC): {{ $last_update }}</h6>  {{ $version ? $version_text : '' }}
     </div>
+    @if (!$new_version_acknowledge)
+    <div class="alert alert-danger" role="alert">
+        The new version {{$version}} released!
+        <form class="btn" data-dismiss="alert" method="POST" action="{{ route('validator.acknowledge') }}"  target="_self">
+            @csrf
+            <input type="submit" value="Acknowledge">
+            <input type="hidden" name="version" value="{{$version}}">
+        </form>
+    </div>
+    @endif
     <div class="col-md-3 themed-grid-col">
         <div class="form-check form-switch">
             <input name="wish_only" class="form-check-input leaderboard-switch"

@@ -51,10 +51,14 @@ class LeaderboardController extends Controller
         $validatorsInfo = $query->get();
 
         $data['version'] = '';
+        $data['new_version_acknowledge'] = 0;
         $versionInfo = Version::first();
-        if ($versionInfo && !$versionInfo->asknowledgement) {
-            $data['version'] = 'Last version ' . $versionInfo->version;
+        if ($versionInfo) {
+            $data['version_text'] = 'Last version ' . $versionInfo->version;
+            $data['version'] = $versionInfo->version;
+            $data['new_version_acknowledge'] = $versionInfo->asknowledgement;
         }
+
 
         /**
          * To show sql query use this code
@@ -97,6 +101,24 @@ class LeaderboardController extends Controller
             $cookies = Cookie::get("validators_wish");
         }
         return array_keys($cookies);
+    }
+
+    public function acknowledge_new_version(Request $request)
+    {
+        $version = 0;
+        if ($request->post('version')) {
+            $version = $request->post('version');
+        }
+        if ($version) {
+            $versionInfo = Version::where('version', $version)->first();
+            if ($versionInfo) {
+                $versionInfo->asknowledgement = 1;
+                $versionInfo->save();
+            }
+        }
+
+        return redirect()->back();
+
     }
 
     public function add_to_wish(Request $request)
