@@ -69,7 +69,7 @@ class LeaderboardController extends Controller
         $data['url'] = $url;
 
         $data['last_update'] = 'never';
-        $lastUpdatedUser = $validatorsInfo->sortBy('updated_at')->first();
+        $lastUpdatedUser = $validatorsInfo->sortByDesc('updated_at')->first();
         if ($lastUpdatedUser) {
             $data['last_update'] = $lastUpdatedUser->updated_at->toDateTimeString();
         }
