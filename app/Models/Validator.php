@@ -33,8 +33,22 @@ class Validator extends Model
     {
         if ($value == 2) {
             return 'Unknown';
+        }else {
+            return $value ? 'Yes' : 'No';
         }
     }
+
+    /**
+     * Accesor for the valid attribute.
+     * Get validity status.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function getActiveAttribute($value)
+    {
+        return $value ? 'Yes' : 'No';
+    }    
 
     use HasFactory;
 }
