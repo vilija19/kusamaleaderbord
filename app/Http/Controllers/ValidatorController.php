@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Validator;
 use App\Models\Version;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ValidatorController extends Controller
 {    
@@ -41,7 +42,13 @@ class ValidatorController extends Controller
         }
 
         $validatorsOldInfo = Validator::all();
-        $validatorsNewInfo = Http::get('https://kusama.w3f.community/candidates')->collect()->toArray();
+        $validatorsNewInfo = [];
+        try {
+            $validatorsNewInfo = Http::get('https://kusama.w3f.community/candidates')->collect()->toArray();
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::channel('update')->info('Validators info update error. ' . $th->getMessage());
+        }
         
         foreach ($validatorsNewInfo as $nomination_order => $validatorInfo) {
             $validator = $validatorsOldInfo->find($validatorInfo['stash']);
