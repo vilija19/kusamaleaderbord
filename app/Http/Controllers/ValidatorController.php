@@ -31,9 +31,13 @@ class ValidatorController extends Controller
         if ($version) {
             $storedVersion = $version->version;
         }
-
-        $versionInfo = Http::get('https://api.github.com/repos/paritytech/polkadot/releases')->collect();
-        $lastNodeVersion = $versionInfo->first()['tag_name'];
+        $lastNodeVersion = 0;
+        try {
+            $versionInfo = Http::get('https://api.github.com/repos/paritytech/polkadot-sdk/releases')->collect();
+            $lastNodeVersion = $versionInfo->first()['tag_name'];
+        } catch (\Throwable $th) {
+            Log::channel('update')->info('Version update error . ' . $th->getMessage());
+        }
 
         if ($lastNodeVersion != $storedVersion) {
             $version->version = $lastNodeVersion;
