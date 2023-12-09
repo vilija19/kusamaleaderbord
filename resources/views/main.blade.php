@@ -61,9 +61,9 @@
 <tbody>
 @foreach ($candidates as $nomination_order => $candidate)
 <tr @if ($candidate->valid == 'No') class="table-danger" @endif>
-<th scope="row">{{ $candidate->nomination_order }}</th>
-<td><a href="https://insights.math-crypto.com/kusama/{{ $candidate['id'] }}" target="_blank">{{ $candidate->name }}</a></td>
-<td>{{ $candidate->score }}</td>
+<th scope="row"><a href="https://insights.math-crypto.com/kusama/{{ $candidate['id'] }}" target="_blank">{{ $candidate->nomination_order }}</a></th>
+<td><a href="https://apps.turboflakes.io/?chain=kusama&app=onet#/validator/{{ $candidate['id'] }}" target="_blank">{{ $candidate->name }}</a></td>
+<td><a href="https://kusama.subscan.io/account/{{ $candidate['id'] }}?tab=reward" target="_blank">{{ $candidate->score }}</a></td>
 <td>{{ $candidate->rank }}</td>
 <td @if ($candidate->active == 'Yes') class="table-success" @endif>{{ $candidate->active }}</td>
 <td>{{ $candidate->valid }}</td>
