@@ -64,7 +64,7 @@ class ValidatorController extends Controller
             $validator->nominatedAt = $validatorInfo['nominatedAt'];
             $validator->offlineSince = $validatorInfo['offlineSince'];
             $validator->offlineAccumulated = $validatorInfo['offlineAccumulated'];
-            $validator->rank = $validatorInfo['rank'];
+            $validator->rank = $validatorInfo['rank'] ?? 0;
             $validator->faults = $validatorInfo['faults'];
             $validator->invalidityReasons = $validatorInfo['invalidityReasons'] ?? '';
             $validator->unclaimedEras = ''; // $validatorInfo['unclaimedEras'];
