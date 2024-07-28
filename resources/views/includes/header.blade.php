@@ -8,7 +8,7 @@
     <meta name="generator" content="Hugo 0.101.0">
     <title>Kusama 1KV</title>
 
-    <link rel="canonical" href="http://kusama.dzanservice.top/">
+    <link rel="canonical" href="{{ route('home.index') }}">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
 
@@ -82,7 +82,7 @@
   <!-- Fixed navbar -->
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="http://kusama.dzanservice.top/">Kusama 1KV</a>
+      <a class="navbar-brand" href="{{ route('home.index') }}">Kusama 1KV</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
